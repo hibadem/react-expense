@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import './ExpenseForm.css';
 
 export const ExpenseForm = () => {
-  const [userInput, setUserInput] = useState('');
+  const [userInput, setUserInput] = useState({
+    title: '',
+    amount: '',
+    date: ''
+  });
   
   const titleChangeHandler = (e) => {
     setUserInput(prevState => {
@@ -28,8 +32,13 @@ export const ExpenseForm = () => {
       }
     });
   }
+
+  const handleSubmitForm = (e) => {
+    e.preventDefault();
+    console.log(userInput);
+  }
   return (
-    <form>
+    <form onSubmit={handleSubmitForm}>
       <div className='new-expense__controls'>
         <div className="new-expense__control">
           <label>Title</label>
