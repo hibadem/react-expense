@@ -11,6 +11,8 @@ export const ExpenseForm = (props) => {
   const [enteredTitle, setEnteredTitle] = useState('');
   const [enteredAmount, setEnteredAmount] = useState('');
   const [enteredDate, setEnteredDate] = useState('');
+
+  const [isClosed, setIsClosed] = useState(true);
   
   const titleChangeHandler = (e) => {
     setEnteredTitle(e.target.value);
@@ -44,14 +46,24 @@ export const ExpenseForm = (props) => {
     e.preventDefault();
     const expenseData = {
       title: enteredTitle,
-      date: enteredDate,
+      date: new Date(enteredDate),
       amount: enteredAmount
     };
     props.onSaveExpenseData(expenseData);
-    setEnteredAmount('')
-    setEnteredDate('')
-    setEnteredTitle('')
+    setEnteredAmount('');
+    setEnteredDate('');
+    setEnteredTitle('');
+    handleIsClosed();
+  }
 
+  const handleIsClosed = () => {
+    setIsClosed(prevState => !prevState);
+  }
+
+  if (isClosed) {
+    return (<div className="new-expense__actions">
+        <button type="button" onClick={handleIsClosed}>Add New Expense</button>
+      </div>)
   }
   return (
     <form onSubmit={handleSubmitForm}>
@@ -70,6 +82,7 @@ export const ExpenseForm = (props) => {
         </div>
       </div>
       <div className="new-expense__actions">
+        <button type="button" onClick={handleIsClosed}>Cancel</button>
         <button type="submit">Add Expense</button>
       </div>
     </form>
